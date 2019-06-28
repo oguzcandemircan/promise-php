@@ -1,34 +1,69 @@
-<?php 
+<?php
 
-class Promise  
+class Promise
 {
+    private $resolve;
+    private $reject;
+
     public function __construct($callback)
     {
-        $this->callback = $callback(function($resolve) {
-            $this->then = $resolve;
-        }, function($resolve) {
-            $this->then = $resolve;
-        });
-        return $this;
+        try {
+            $this->callback = $callback(function ($resolve) {
+                $this->resolve = $resolve;
+            }, function ($reject) {
+                $this->reject = $reject;
+            });
+        } catch (\Exception $e) {
+            var_dump($e);
+        }
+    }
+
+    public static function run($callback)
+    {
+        return (new self($callback));
     }
 
     public function then($callback)
     {
-        return $callback($this->then);
+        if ($this->resolve) {
+            $callback($this->resolve);
+        }
+        return $this;
+    }
+
+    public function catch($callback)
+    {
+        if ($this->reject) {
+            $callback($this->reject);
+        }
+        return $this;
     }
 }
 
-$data = (new Promise(function($resolve, $reject) {
-    if(true) {
-        $resolve('başarılı');
+Promise::run(function ($resolve, $reject) {
+    if (true) {
+        $resolve('passed');
     } else {
-        $reject('başarısız !');
+        $reject('not passed !');
     }
-}))->then(function($passed_data) {
-    echo $passed_data;
+})->then(function ($data) {
+    echo $data;
+})->catch(function ($data) {
+    echo $data;
+})->then(function($data) {
+    echo $data.'ocdcd';
 });
 
-// var_dump($data);
-
-
-?>
+(new Promise(function ($resolve, $reject) {
+    if (true) {
+        $resolve('passed');
+    } else {
+        $reject('not passed !');
+    }
+}))->then(function ($data) {
+    echo $data;
+})->catch(function ($data) {
+    echo $data;
+})->then(function($data) {
+    echo $data.'ocdcd';
+});
