@@ -39,31 +39,3 @@ class Promise
         return $this;
     }
 }
-
-Promise::run(function ($resolve, $reject) {
-    if (true) {
-        $resolve('passed');
-    } else {
-        $reject('not passed !');
-    }
-})->then(function ($data) {
-    echo $data;
-})->catch(function ($data) {
-    echo $data;
-})->then(function($data) {
-    echo $data.'ocdcd';
-});
-
-(new Promise(function ($resolve, $reject) {
-    if (true) {
-        $resolve('passed');
-    } else {
-        $reject('not passed !');
-    }
-}))->then(function ($data) {
-    echo $data;
-})->catch(function ($data) {
-    echo $data;
-})->then(function($data) {
-    echo $data.'ocdcd';
-});

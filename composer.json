@@ -1,0 +1,13 @@
+{
+    "name": "oguzcandemircan/promise-php",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Oğuzcan Demircan",
+            "email": "oguzcandemircan@gmail.com"
+        }
+    ],
+    "autoload": {
+        "files": ["src/Promise.php"]
+    }
+}
