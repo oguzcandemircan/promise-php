@@ -18,6 +18,11 @@ class Promise
         }
     }
 
+    public static function run($callback)
+    {
+        return (new self($callback));
+    }
+
     public function then($callback)
     {
         if ($this->resolve) {
@@ -35,6 +40,20 @@ class Promise
     }
 }
 
+Promise::run(function ($resolve, $reject) {
+    if (true) {
+        $resolve('passed');
+    } else {
+        $reject('not passed !');
+    }
+})->then(function ($data) {
+    echo $data;
+})->catch(function ($data) {
+    echo $data;
+})->then(function($data) {
+    echo $data.'ocdcd';
+});
+
 (new Promise(function ($resolve, $reject) {
     if (true) {
         $resolve('passed');
@@ -45,6 +64,6 @@ class Promise
     echo $data;
 })->catch(function ($data) {
     echo $data;
-})->then(function ($data) {
-    echo $data . 'ocdcd';
+})->then(function($data) {
+    echo $data.'ocdcd';
 });
